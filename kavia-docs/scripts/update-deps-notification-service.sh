@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# This script should be copied into the Notification Service repository (teljira-326-1861)
-# and executed there. It updates dependencies, refreshes the lockfile, runs audits,
-# lints, runs tests in CI mode, and commits with the required message.
+# Notification Service dependency update helper
+# Repository: teljira-326-1861
+# Usage:
+#   1) cd /path/to/your/workdir
+#   2) git clone https://github.com/kavia-common/teljira-326-1861.git
+#   3) cd teljira-326-1861
+#   4) curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-notification-service.sh -o update-deps-notification-service.sh
+#   5) chmod +x update-deps-notification-service.sh
+#   6) ./update-deps-notification-service.sh
 
 if [ ! -f package.json ]; then
-  echo "package.json not found. Run this script from the Notification Service repository root."
+  echo "package.json not found. Run this script from the Notification Service repository root (teljira-326-1861)."
   exit 1
 fi
 
@@ -18,13 +24,13 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
   git checkout -b "$branch" || git checkout "$branch"
 fi
 
-# Baseline install
+# Baseline clean install (fallback to install if lock is stale)
 npm ci || npm install --no-audit --no-fund
 
-# Bulk update to latest compatible
+# Upgrade all dependencies to latest compatible ranges
 npx npm-check-updates -u
 
-# Refresh lock file
+# Regenerate lockfile
 npm install --no-audit --no-fund
 
 # Security audit (best-effort)
@@ -40,7 +46,7 @@ if npm run | grep -q "test"; then
   CI=true npm test || true
 fi
 
-# Stage and commit
+# Stage and commit changes with standardized message
 git add package.json package-lock.json || true
 
 if ! git diff --cached --quiet; then
