@@ -164,7 +164,7 @@ Note: Current JWTs encode a minimal permission set. Future iterations should loa
 - Auth: POST /api/auth/register, POST /api/auth/login
 - Workspaces: POST /api/workspaces, GET /api/workspaces
 - Projects: POST /api/projects, GET /api/projects
-- Issues: POST /api/issues, GET /api/issues, PATCH /api/issues/{id}
+- Issues: POST /api/issues, GET /api/issues, PATCH /api/issues/{id}, POST /api/issues/{id}/transition, POST /api/issues/link, DELETE /api/issues/{id}
 - Sprints: POST /api/sprints, PATCH /api/sprints/{id}/state
 - Boards: POST /api/boards, GET /api/boards
 - Backlog: GET /api/backlog?project_id=...

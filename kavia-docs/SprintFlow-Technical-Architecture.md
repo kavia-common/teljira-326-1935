@@ -52,6 +52,7 @@ This document details the current technical architecture, including module struc
 - /api/workspaces: create/list workspaces (settings.admin and project.read).
 - /api/projects: create/list projects (project.write/read); emits project:created to global room.
 - /api/issues: create/list/patch issues (issue.write/read); emits issue:created and issue:updated to project rooms; sequential per-project key generation.
+  - Internals refactored: IssueService encapsulates creation, update, transition, linking (stub), and deletion. Routes delegate to service for maintainability.
 - /api/sprints: create sprints and update state; emits sprint:created; audits actions.
 - /api/boards: create/list boards (board.write/read).
 - /api/backlog: list backlog issues for project (no sprint assigned).
