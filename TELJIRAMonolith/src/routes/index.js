@@ -1,35 +1,35 @@
 const express = require('express');
-const healthController = require('../controllers/health');
+
+const authRoutes = require('./modules/auth');
+const userRoutes = require('./modules/users');
+const teamRoutes = require('./modules/teams');
+const rbacRoutes = require('./modules/rbac');
+const workspaceRoutes = require('./modules/workspaces');
+const projectRoutes = require('./modules/projects');
+const boardRoutes = require('./modules/boards');
+const sprintRoutes = require('./modules/sprints');
+const issueRoutes = require('./modules/issues');
+const backlogRoutes = require('./modules/backlog');
+const automationRoutes = require('./modules/automation');
+const reportsRoutes = require('./modules/reports');
+const settingsRoutes = require('./modules/settings');
+const webhookRoutes = require('./modules/webhooks');
 
 const router = express.Router();
-// Health endpoint
 
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Health endpoint
- *     responses:
- *       200:
- *         description: Service health check passed
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: ok
- *                 message:
- *                   type: string
- *                   example: Service is healthy
- *                 timestamp:
- *                   type: string
- *                   format: date-time
- *                 environment:
- *                   type: string
- *                   example: development
- */
-router.get('/', healthController.check.bind(healthController));
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/teams', teamRoutes);
+router.use('/rbac', rbacRoutes);
+router.use('/workspaces', workspaceRoutes);
+router.use('/projects', projectRoutes);
+router.use('/boards', boardRoutes);
+router.use('/sprints', sprintRoutes);
+router.use('/issues', issueRoutes);
+router.use('/backlog', backlogRoutes);
+router.use('/automation', automationRoutes);
+router.use('/reports', reportsRoutes);
+router.use('/settings', settingsRoutes);
+router.use('/webhooks', webhookRoutes);
 
 module.exports = router;
