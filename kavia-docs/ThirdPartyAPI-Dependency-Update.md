@@ -4,12 +4,23 @@ Purpose
 - This guide describes how to update all dependencies in the Third-Party API container (repo: teljira-326-1862) to the latest compatible versions, resolve conflicts, and document major changes.
 - Use this guide after cloning the Third-Party API repository locally. The Third-Party API repository is not present in this workspace; this document enables a future step to complete the update safely.
 
+Execute now (copy/paste)
+If you have the Third-Party API repo locally:
+- cd /path/to/your/workdir
+- git clone https://github.com/kavia-common/teljira-326-1862.git
+- cd teljira-326-1862
+- curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-third-party-api.sh -o update-deps-third-party-api.sh
+- chmod +x update-deps-third-party-api.sh
+- ./update-deps-third-party-api.sh
+Then push and open a PR:
+- git push -u origin HEAD
+
 Prerequisites
-- Node.js: Ensure Node >= 18.18.0 (LTS) is installed. Prefer using nvm to match `engines.node` in package.json.
-- Package manager: npm >= 9 (recommended) or yarn (v1 or berry, depending on the repo).
+- Node.js: Ensure Node >= 18.18.0 (LTS) is installed. Prefer using nvm to match `engines.node` in package.json (Node >= 20 recommended for newer toolchains).
+- Package manager: npm >= 9 (recommended) or yarn (if the repo uses it).
 - Clean git working tree for easy rollback.
 
-Clone Third-Party API locally
+Clone Third-Party API locally (manual path)
 - git clone https://github.com/kavia-common/teljira-326-1862.git
 - cd teljira-326-1862
 
@@ -40,15 +51,15 @@ Recommended update strategy
    - npm install <pkg>@latest --save
 
 4) Update devDependencies
-   - eslint (9+ uses flat config), jest 29+, nodemon 3+, supertest, @types/* (if TS)
+   - eslint (9+ uses flat config), jest 29+/30, nodemon 3+, supertest, @types/* (if TS)
    - npm install --save-dev <devpkg>@latest
 
 5) Resolve breaking changes and compatibility notes
-- Express (4.x to latest 4 minor → safe; 5.x requires handler refactors). Only update to 5 if you are ready to update route/err-handling semantics.
-- Helmet >=7:
+- Express 4 latest minor is usually safe; Express 5 requires handler/err semantics review. Only jump to 5 if ready.
+- Helmet >=7/8:
   - Options shape: `helmet({ contentSecurityPolicy: false })` is acceptable; define CSP explicitly in production.
-- express-rate-limit >=7:
-  - Uses `limit` instead of `max` and supports standard/legacy headers.
+- express-rate-limit >=7/8:
+  - Uses `limit` instead of `max`; add `standardHeaders: true`, `legacyHeaders: false`.
   - Example:
     const rateLimit = require('express-rate-limit');
     const apiLimiter = rateLimit({
@@ -58,17 +69,17 @@ Recommended update strategy
       legacyHeaders: false
     });
 - jsonwebtoken >=9:
-  - Ensure `subject` (sub) is a string; handle TokenExpiredError and JsonWebTokenError explicitly.
+  - Ensure `subject` (sub) is a string on sign; catch TokenExpiredError and JsonWebTokenError (401 appropriately).
 - swagger-jsdoc/ui:
-  - Confirm default vs named export usage; APIs remain stable in v6.
+  - Verify require vs default import usage after updates; APIs stable in v6.
 - axios / node-fetch:
-  - If migrating from node-fetch v2 to v3 (ESM), ensure module type compatibility or prefer axios to avoid ESM friction.
+  - node-fetch v3 is ESM; for CJS projects prefer axios or switch the repo to ESM.
 - Git integrations (nodegit/simple-git):
-  - nodegit has native binaries; ensure Node version compatibility. If friction arises, consider simple-git (pure JS) if functionality allows.
+  - nodegit uses native binaries; ensure Node version compatibility; consider simple-git if feasible.
 - ESLint >=9:
-  - Flat config via eslint.config.js; install `@eslint/js`, `globals` if needed; update npm scripts to `eslint .`.
+  - Flat config via eslint.config.js; install `@eslint/js`, `globals` if needed; update scripts to `eslint .`.
 - CORS:
-  - Validate origin allow-list logic; keep credentials and allowed headers aligned with server behavior.
+  - Validate origin allow-list logic; keep credentials and allowed headers aligned.
 
 6) Re-run tests and lint
    - npm run lint
@@ -78,7 +89,7 @@ Recommended update strategy
 7) Node engine alignment
    - If any updated dependency requires newer Node, bump engines in package.json:
      "engines": { "node": ">=18.18.0" }
-   - Update Docker/CI node version accordingly.
+   - Align Docker/CI node versions accordingly.
 
 8) Lockfile and reproducibility
    - Commit package.json and package-lock.json (or yarn.lock).
@@ -108,10 +119,10 @@ Configuration and code adjustments commonly required (snippets)
 
 Security checks
 - npm audit --production (review high/critical issues)
-- For runtime advisories, consider pinning to patched versions if latest major introduces breaking changes you cannot adopt immediately.
+- For runtime advisories, consider pinning patched versions if latest major introduces breaking changes you cannot adopt immediately.
 
 Helper script
-- You can use the update helper script from this repo (copy to the Third-Party API repo root and run):
+- Use the update helper script from this repo (copy to the Third-Party API repo root and run):
   - File: kavia-docs/scripts/update-deps-third-party-api.sh
   - Quick usage:
     curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-third-party-api.sh -o update-deps-third-party-api.sh
