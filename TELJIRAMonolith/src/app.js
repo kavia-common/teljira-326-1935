@@ -62,20 +62,26 @@ app.use('/api', apiLimiter);
 // Request context
 app.use(requestContext);
 
-// Swagger docs with dynamic server URL
+ // Swagger docs with dynamic server URL
 app.use('/docs', swaggerUi.serve, (req, res, next) => {
-  const host = req.get('host');
-  let protocol = req.protocol;
+  // Prefer X-Forwarded-* when behind a proxy
+  const xfProto = req.get('x-forwarded-proto');
+  const xfHost = req.get('x-forwarded-host');
+  const hostHeader = req.get('host');
 
-  const actualPort = req.socket.localPort;
+  let protocol = (xfProto || (req.secure ? 'https' : req.protocol) || 'http').split(',')[0].trim();
+  let host = (xfHost || hostHeader || '').split(',')[0].trim();
+
+  // Fallback to computed port if host has no explicit port and it's non-standard
+  const actualPort = req.socket?.localPort;
   const hasPort = host.includes(':');
-
   const needsPort =
     !hasPort &&
+    typeof actualPort === 'number' &&
     ((protocol === 'http' && actualPort !== 80) ||
       (protocol === 'https' && actualPort !== 443));
+
   const fullHost = needsPort ? `${host}:${actualPort}` : host;
-  protocol = req.secure ? 'https' : protocol;
 
   const dynamicSpec = {
     ...swaggerSpec,
