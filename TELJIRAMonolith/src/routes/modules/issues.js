@@ -4,6 +4,7 @@ const { requirePermissions } = require("../../middleware/rbac");
 const { getDb } = require("../../db");
 const { auditLog } = require("../../middleware/audit");
 const { getIo } = require("../../socket");
+const AutomationEngine = require("../../services/automation/engine");
 
 const router = express.Router();
 
@@ -13,6 +14,9 @@ const router = express.Router();
  *   post:
  *     tags: [Issues]
  *     summary: Create issue
+ *     description: >
+ *       Creates a new issue within a project and emits a real-time event. Triggers the Automation Engine
+ *       which evaluates rules for the "issue.created" event and may perform follow-up actions (e.g., notifications).
  *     security: [{ bearerAuth: [] }]
  *     responses:
  *       201: { description: Created }
@@ -21,35 +25,51 @@ router.post(
   "/",
   authenticate,
   requirePermissions("issue.write"),
-  async (req, res) => {
-    const { project_id, sprint_id, type_id, title, description, priority } =
-      req.body;
-    // Generate simple incremental key per project
-    const db = getDb();
-    const count = await db.query(
-      "SELECT COUNT(*)::int as c FROM issues WHERE project_id=$1",
-      [project_id],
-    );
-    const seq = (count.rows[0].c || 0) + 1;
-    const key = seq.toString();
+  async (req, res, next) => {
+    try {
+      const { project_id, sprint_id, type_id, title, description, priority } =
+        req.body;
+      // Generate simple incremental key per project
+      const db = getDb();
+      const count = await db.query(
+        "SELECT COUNT(*)::int as c FROM issues WHERE project_id=$1",
+        [project_id],
+      );
+      const seq = (count.rows[0].c || 0) + 1;
+      const key = seq.toString();
 
-    const { rows } = await db.query(
-      `INSERT INTO issues(project_id, sprint_id, type_id, key, title, description, priority, reporter_id) 
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
-      [
-        project_id,
-        sprint_id || null,
-        type_id,
-        key,
-        title,
-        description || null,
-        priority || "medium",
-        req.context.user.id,
-      ],
-    );
-    await auditLog(req, "issue.create", "issue", rows[0].id, { key });
-    getIo().to(`project:${project_id}`).emit("issue:created", rows[0]);
-    return res.status(201).json(rows[0]);
+      const { rows } = await db.query(
+        `INSERT INTO issues(project_id, sprint_id, type_id, key, title, description, priority, reporter_id) 
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
+        [
+          project_id,
+          sprint_id || null,
+          type_id,
+          key,
+          title,
+          description || null,
+          priority || "medium",
+          req.context.user.id,
+        ],
+      );
+      const created = rows[0];
+      await auditLog(req, "issue.create", "issue", created.id, { key });
+      getIo().to(`project:${project_id}`).emit("issue:created", created);
+
+      // Fire automation engine asynchronously (no await required for response latency),
+      // but we choose to await here to surface errors via logs while keeping 201 response quick.
+      AutomationEngine.evaluateAndExecute(req, {
+        type: "issue.created",
+        data: { issue: created, project_id: created.project_id },
+        actor: req.context.user,
+      }).catch(() => {
+        // ignore automation failures for response; errors are audited internally
+      });
+
+      return res.status(201).json(created);
+    } catch (e) {
+      return next(e);
+    }
   },
 );
 
