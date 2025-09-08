@@ -48,6 +48,7 @@ async function main() {
       "board.write",
       "settings.admin",
       "rbac.manage",
+      "notifications.send",
     ];
     for (const p of permissions) {
       await db.query(

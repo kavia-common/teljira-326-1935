@@ -37,6 +37,7 @@ const options = {
       { name: "Reports", description: "Metrics and reporting" },
       { name: "Settings", description: "Admin and project settings" },
       { name: "Webhooks", description: "Webhook subscriptions" },
+      { name: "Notifications", description: "Notification dispatching and channels" },
     ],
   },
   apis: ["./src/routes/**/*.js", "./src/controllers/**/*.js"],

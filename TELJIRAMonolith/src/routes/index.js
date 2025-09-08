@@ -14,6 +14,7 @@ const automationRoutes = require("./modules/automation");
 const reportsRoutes = require("./modules/reports");
 const settingsRoutes = require("./modules/settings");
 const webhookRoutes = require("./modules/webhooks");
+const notificationRoutes = require("./modules/notifications");
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.use("/automation", automationRoutes);
 router.use("/reports", reportsRoutes);
 router.use("/settings", settingsRoutes);
 router.use("/webhooks", webhookRoutes);
+router.use("/notifications", notificationRoutes);
 
 module.exports = router;
