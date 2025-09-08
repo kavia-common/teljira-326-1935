@@ -32,6 +32,7 @@ fi
 # Baseline install (prefer clean install; fallback to install)
 npm ci || npm install --no-audit --no-fund
 
+# Ensure npm-check-updates exists (npx will fetch it on demand)
 # Bulk update to latest compatible versions
 npx npm-check-updates -u
 

@@ -20,3 +20,9 @@ Notes:
 - All actions send audit logs to audit_logs table.
 - Socket.IO pushes simple events for created/updated entities.
 - Accessibility: Semantic landmarks and form labels included; expand per WCAG 2.2 AA.
+
+Dependency update guides (external containers):
+- Webhook Endpoint: see kavia-docs/WebhookEndpoint-Contributing-Dependency-Update.md and kavia-docs/WebhookEndpoint-Dependency-Update.md
+- Notification Service: see kavia-docs/NotificationService-Dependency-Update.md
+- Third-Party API: see kavia-docs/ThirdPartyAPI-Dependency-Update.md
+- IdP: see kavia-docs/IdP-Contributing-Dependency-Update.md and kavia-docs/IdP-Dependency-Update.md
