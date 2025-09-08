@@ -31,9 +31,9 @@ Debugging (VS Code):
 - If using a strictly web-based IDE that cannot spawn a native browser, the Chrome debug attach will still work if the environment supports a built-in browser preview. Otherwise, open the same workspace in VS Code Desktop.
 
 Dependency update guides (external containers):
-- Webhook Endpoint: see kavia-docs/WebhookEndpoint-Contributing-Dependency-Update.md and kavia-docs/WebhookEndpoint-Dependency-Update.md
+- Webhook Endpoint: see kavia-docs/WebhookEndpoint-Contributing-Dependency-Update.md, kavia-docs/WebhookEndpoint-Contributing-Dependency-Update-Quickstart.md, kavia-docs/WebhookEndpoint-Dependency-Update.md, and kavia-docs/WebhookEndpoint-Dependency-Update-Notes.md
 - Notification Service: see kavia-docs/NotificationService-Dependency-Update.md
-- Third-Party API: see kavia-docs/ThirdPartyAPI-Dependency-Update.md
+- Third-Party API: see kavia-docs/ThirdPartyAPI-Dependency-Update.md and kavia-docs/ThirdPartyAPI-Contributing-Dependency-Update-Quickstart.md
 - IdP: see kavia-docs/IdP-Contributing-Dependency-Update.md and kavia-docs/IdP-Dependency-Update.md
 
 Monolith dependency update:

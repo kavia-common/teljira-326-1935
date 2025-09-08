@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Notification Service dependency update helper
-# Repository: teljira-326-1861
+# Identity Provider (IdP) dependency update helper
+# Repository: teljira-326-1860
 # Usage:
 #   1) cd /path/to/your/workdir
-#   2) git clone https://github.com/kavia-common/teljira-326-1861.git
-#   3) cd teljira-326-1861
-#   4) curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-notification-service.sh -o update-deps-notification-service.sh
-#   5) chmod +x update-deps-notification-service.sh
-#   6) ./update-deps-notification-service.sh
+#   2) git clone https://github.com/kavia-common/teljira-326-1860.git
+#   3) cd teljira-326-1860
+#   4) curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-idp.sh -o update-deps-idp.sh
+#   5) chmod +x update-deps-idp.sh
+#   6) ./update-deps-idp.sh
 
 if [ ! -f package.json ]; then
-  echo "package.json not found. Run this script from the Notification Service repository root (teljira-326-1861)."
+  echo "package.json not found. Run this script from the IdP repository root (teljira-326-1860)."
   exit 1
 fi
 
@@ -33,7 +33,7 @@ npx npm-check-updates -u
 # Regenerate lockfile
 npm install --no-audit --no-fund
 
-# Security audit (best-effort)
+# Security audit (best-effort, do not fail the run)
 npm audit fix || true
 
 # Lint (best-effort)
