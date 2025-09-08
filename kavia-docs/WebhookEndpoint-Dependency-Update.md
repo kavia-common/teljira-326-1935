@@ -9,7 +9,18 @@ Prerequisites
 - Package manager: npm >= 9 (recommended) or yarn.
 - Clean git working tree.
 
-Clone Webhook Endpoint locally
+Execute now (copy/paste)
+If you have the Webhook Endpoint repo locally:
+- cd /path/to/your/workdir
+- git clone https://github.com/kavia-common/teljira-326-1863.git
+- cd teljira-326-1863
+- curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-webhook-endpoint.sh -o update-deps-webhook-endpoint.sh
+- chmod +x update-deps-webhook-endpoint.sh
+- ./update-deps-webhook-endpoint.sh
+Then push and open a PR:
+- git push -u origin HEAD
+
+Clone Webhook Endpoint locally (manual path)
 - git clone https://github.com/kavia-common/teljira-326-1863.git
 - cd teljira-326-1863
 
@@ -58,7 +69,7 @@ Sample code adjustments
 - Signature verification (no change needed for crypto core):
   const sig = req.headers['x-sf-signature'];
   if (sig && process.env.WEBHOOK_SECRET) {
-    const hmac = crypto.createHmac('sha256', process.env.WEBHOOK_SECRET);
+    const hmac = require('crypto').createHmac('sha256', process.env.WEBHOOK_SECRET);
     const digest = 'sha256=' + hmac.update(JSON.stringify(req.body)).digest('hex');
     if (sig !== digest) return res.status(401).json({ error: 'Unauthorized', message: 'Invalid signature' });
   }
