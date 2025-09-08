@@ -26,3 +26,6 @@ Dependency update guides (external containers):
 - Notification Service: see kavia-docs/NotificationService-Dependency-Update.md
 - Third-Party API: see kavia-docs/ThirdPartyAPI-Dependency-Update.md
 - IdP: see kavia-docs/IdP-Contributing-Dependency-Update.md and kavia-docs/IdP-Dependency-Update.md
+
+Monolith dependency update:
+- See kavia-docs/TELJIRAMonolith-Dependency-Update.md for a reproducible procedure and compatibility notes.
