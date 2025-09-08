@@ -17,7 +17,7 @@ async function initDb() {
     ssl: process.env.PGSSLMODE === 'require' ? { rejectUnauthorized: false } : undefined,
     max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
+    connectionTimeoutMillis: 2000,
   });
   pool.on('error', (err) => {
     logger.error('Unexpected PG error', { err });

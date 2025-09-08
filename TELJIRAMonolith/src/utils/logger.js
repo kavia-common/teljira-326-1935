@@ -8,9 +8,7 @@ const logger = createLogger({
     format.splat(),
     format.json()
   ),
-  transports: [
-    new transports.Console()
-  ]
+  transports: [new transports.Console()],
 });
 
 module.exports = logger;

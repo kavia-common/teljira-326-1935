@@ -19,9 +19,11 @@ const { errorHandler, notFoundHandler } = require('./middleware/errorHandlers');
 const app = express();
 
 // Security, compression and logging
-app.use(helmet({
-  contentSecurityPolicy: false
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(compression());
 app.use(morgan('combined'));
 
@@ -29,7 +31,7 @@ app.use(morgan('combined'));
 const allowedOrigins = [
   process.env.SITE_URL,
   'http://localhost:5173',
-  'http://127.0.0.1:5173'
+  'http://127.0.0.1:5173',
 ].filter(Boolean);
 
 app.use(cors({
@@ -41,7 +43,7 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],
 }));
 app.set('trust proxy', true);
 
@@ -100,8 +102,8 @@ const csrfProtection = csrf({
     key: process.env.CSRF_COOKIE_NAME || 'csrf_token',
     httpOnly: true,
     sameSite: 'lax',
-    secure: false
-  }
+    secure: false,
+  },
 });
 if (process.env.NODE_ENV !== 'test') {
   app.use((req, res, next) => {
