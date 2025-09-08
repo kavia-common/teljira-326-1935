@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 /**
  * Attach a requestId and a base context object to each request.
@@ -7,9 +7,9 @@ const { v4: uuidv4 } = require('uuid');
 function requestContext(req, res, next) {
   req.context = {
     requestId: uuidv4(),
-    user: null
+    user: null,
   };
-  res.setHeader('X-Request-Id', req.context.requestId);
+  res.setHeader("X-Request-Id", req.context.requestId);
   next();
 }
 

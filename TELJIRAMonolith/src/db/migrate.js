@@ -1,6 +1,6 @@
-require('dotenv').config();
-const { initDb, getDb, closeDb } = require('./index');
-const logger = require('../utils/logger');
+require("dotenv").config();
+const { initDb, getDb, closeDb } = require("./index");
+const logger = require("../utils/logger");
 
 const ddl = `
 CREATE TABLE IF NOT EXISTS users (
@@ -136,11 +136,11 @@ async function main() {
     await initDb();
     const db = getDb();
     // enable pgcrypto for gen_random_uuid on Cloud PG else use uuid-ossp
-    await db.query('CREATE EXTENSION IF NOT EXISTS pgcrypto;');
+    await db.query("CREATE EXTENSION IF NOT EXISTS pgcrypto;");
     await db.query(ddl);
-    logger.info('Migration completed');
+    logger.info("Migration completed");
   } catch (e) {
-    logger.error('Migration failed', { e });
+    logger.error("Migration failed", { e });
     process.exit(1);
   } finally {
     await closeDb();

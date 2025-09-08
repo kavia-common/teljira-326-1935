@@ -1,5 +1,5 @@
-const express = require('express');
-const healthController = require('../controllers/health');
+const express = require("express");
+const healthController = require("../controllers/health");
 
 const router = express.Router();
 
@@ -31,6 +31,6 @@ const router = express.Router();
  *                   type: string
  *                   example: development
  */
-router.get('/', healthController.check.bind(healthController));
+router.get("/", healthController.check.bind(healthController));
 
 module.exports = router;

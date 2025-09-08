@@ -6,10 +6,10 @@ class HealthService {
    */
   getStatus() {
     return {
-      status: 'ok',
-      message: 'Service is healthy',
+      status: "ok",
+      message: "Service is healthy",
       timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'development'
+      environment: process.env.NODE_ENV || "development",
     };
   }
 }

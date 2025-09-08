@@ -1,12 +1,12 @@
-require('dotenv').config();
-const http = require('http');
-const app = require('./app');
-const { initDb, closeDb } = require('./db');
-const { initSocket } = require('./socket');
-const logger = require('./utils/logger');
+require("dotenv").config();
+const http = require("http");
+const app = require("./app");
+const { initDb, closeDb } = require("./db");
+const { initSocket } = require("./socket");
+const logger = require("./utils/logger");
 
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '0.0.0.0';
+const HOST = process.env.HOST || "0.0.0.0";
 
 const httpServer = http.createServer(app);
 initSocket(httpServer);
@@ -18,7 +18,7 @@ initSocket(httpServer);
       logger.info(`Server running at http://${HOST}:${PORT}`);
     });
   } catch (err) {
-    logger.error('Failed to initialize application', { err });
+    logger.error("Failed to initialize application", { err });
     process.exit(1);
   }
 })();
@@ -30,14 +30,14 @@ const shutdown = (signal) => {
     try {
       await closeDb();
     } catch (e) {
-      logger.error('Error closing DB', { e });
+      logger.error("Error closing DB", { e });
     }
-    logger.info('HTTP server closed');
+    logger.info("HTTP server closed");
     process.exit(0);
   });
 };
 
-process.on('SIGTERM', () => shutdown('SIGTERM'));
-process.on('SIGINT', () => shutdown('SIGINT'));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));
 
 module.exports = httpServer;
