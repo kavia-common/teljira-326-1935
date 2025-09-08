@@ -8,15 +8,24 @@ export default function Issues({ token }) {
 
   const load = async () => {
     if (!projectId) return;
-    const { data } = await axios.get(`/api/issues?project_id=${encodeURIComponent(projectId)}`, { headers: { Authorization: `Bearer ${token}` } });
+    const { data } = await axios.get(
+      `/api/issues?project_id=${encodeURIComponent(projectId)}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
     setItems(data);
   };
 
-  useEffect(() => { load(); /* eslint-disable react-hooks/exhaustive-deps */ }, [projectId]);
+  // Intentionally disabling exhaustive-deps since we only want to reload when projectId changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, [projectId]);
 
   const create = async (e) => {
     e.preventDefault();
-    await axios.post('/api/issues', { project_id: projectId, type_id: null, title }, { headers: { Authorization: `Bearer ${token}` } });
+    await axios.post(
+      '/api/issues',
+      { project_id: projectId, type_id: null, title },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
     setTitle('');
     await load();
   };
@@ -25,12 +34,28 @@ export default function Issues({ token }) {
     <section aria-labelledby="issue-header">
       <h1 id="issue-header">Issues</h1>
       <form onSubmit={create} style={{ display: 'flex', gap: 8 }}>
-        <input placeholder="Project ID" value={projectId} onChange={(e)=>setProjectId(e.target.value)} aria-label="Project ID"/>
-        <input placeholder="Title" value={title} onChange={(e)=>setTitle(e.target.value)} aria-label="Issue Title"/>
-        <button type="submit" disabled={!projectId || !title}>Create</button>
+        <input
+          placeholder="Project ID"
+          value={projectId}
+          onChange={(e) => setProjectId(e.target.value)}
+          aria-label="Project ID"
+        />
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          aria-label="Issue Title"
+        />
+        <button type="submit" disabled={!projectId || !title}>
+          Create
+        </button>
       </form>
       <ul>
-        {items.map((i)=> <li key={i.id}>{i.key}: {i.title} [{i.status}]</li>)}
+        {items.map((i) => (
+          <li key={i.id}>
+            {i.key}: {i.title} [{i.status}]
+          </li>
+        ))}
       </ul>
     </section>
   );

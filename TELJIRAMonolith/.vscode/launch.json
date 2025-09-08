@@ -1,0 +1,88 @@
+{
+  // VS Code Launch configurations to enable debugging in supported environments.
+  // Includes:
+  // - Backend (Node) debugging with inspector
+  // - Frontend (Vite) run task
+  // - Chrome (pwa-chrome) attach to http://localhost:5173 for React/Vite app
+  // - Compound to run full stack and attach browser debugger
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // PUBLIC_INTERFACE
+      "name": "Backend: Node (Nodemon + Inspector)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "nodemon",
+        "--inspect=9229",
+        "src/server.js"
+      ],
+      "cwd": "${workspaceFolder}/TELJIRAMonolith",
+      "console": "integratedTerminal",
+      "restart": true,
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "autoAttachChildProcesses": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      // PUBLIC_INTERFACE
+      "name": "Frontend: Vite (Run task)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/TELJIRAMonolith/frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "console": "integratedTerminal",
+      "restart": true
+    },
+    {
+      // PUBLIC_INTERFACE
+      "name": "Browser: Debug Chrome (Attach to http://localhost:5173)",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/TELJIRAMonolith/frontend",
+      "timeout": 60000,
+      "sourceMaps": true,
+      "preLaunchTask": "Frontend: Vite dev server",
+      "presentation": {
+        "group": "browser",
+        "hidden": false
+      }
+    },
+    {
+      // PUBLIC_INTERFACE
+      "name": "Browser: Open API Docs (http://localhost:3000/docs)",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/docs",
+      "webRoot": "${workspaceFolder}/TELJIRAMonolith",
+      "timeout": 60000,
+      "sourceMaps": false,
+      "presentation": {
+        "group": "browser",
+        "hidden": false
+      }
+    }
+  ],
+  "compounds": [
+    {
+      // PUBLIC_INTERFACE
+      "name": "Monolith: Full Stack (Backend + Frontend + Browser)",
+      "configurations": [
+        "Backend: Node (Nodemon + Inspector)",
+        "Browser: Debug Chrome (Attach to http://localhost:5173)"
+      ],
+      "preLaunchTask": "Frontend: Vite dev server",
+      "stopAll": true
+    }
+  ]
+}

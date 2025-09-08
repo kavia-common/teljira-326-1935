@@ -15,8 +15,8 @@ function initSocket(server) {
     cors: {
       origin: ['http://localhost:5173', process.env.SITE_URL].filter(Boolean),
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      credentials: true
-    }
+      credentials: true,
+    },
   });
 
   io.on('connection', (socket) => {

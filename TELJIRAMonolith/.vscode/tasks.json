@@ -1,0 +1,70 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // PUBLIC_INTERFACE
+      "label": "Backend: Nodemon dev",
+      "type": "npm",
+      "script": "dev",
+      "path": "",
+      "options": {
+        "cwd": "${workspaceFolder}/TELJIRAMonolith"
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "owner": "custom",
+          "pattern": [
+            {
+              "regexp": ".",
+              "file": 1,
+              "location": 2,
+              "message": 0
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".*nodemon.*starting.*",
+            "endsPattern": ".*Server running at http:\\/\\/.*:\\d+"
+          }
+        }
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      // PUBLIC_INTERFACE
+      "label": "Frontend: Vite dev server",
+      "type": "npm",
+      "script": "dev",
+      "options": {
+        "cwd": "${workspaceFolder}/TELJIRAMonolith/frontend"
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "owner": "vite",
+          "pattern": [
+            {
+              "regexp": ".",
+              "file": 1,
+              "location": 2,
+              "message": 0
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".*vite v.* dev server running at:",
+            "endsPattern": ".*Local:\\s*http:\\/\\/localhost:5173.*"
+          }
+        }
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

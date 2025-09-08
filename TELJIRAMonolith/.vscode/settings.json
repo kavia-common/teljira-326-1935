@@ -1,0 +1,13 @@
+{
+  "debug.javascript.usePreviewAutoAttach": false,
+  "debug.openDebug": "openOnSessionStart",
+  "npm.enableScriptExplorer": true,
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true
+  },
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true
+}

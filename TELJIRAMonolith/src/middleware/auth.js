@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 /**
  * Verify Bearer token and attach user to req.context.
+ * Includes roles and permissions from the JWT payload if present.
  */
 function authenticate(req, res, next) {
   const auth = req.headers.authorization;
@@ -14,7 +15,9 @@ function authenticate(req, res, next) {
     req.context.user = {
       id: payload.sub,
       email: payload.email,
-      roles: payload.roles || []
+      roles: Array.isArray(payload.roles) ? payload.roles : [],
+      // Ensure permissions is always an array to satisfy RBAC middleware expectations
+      permissions: Array.isArray(payload.permissions) ? payload.permissions : []
     };
     return next();
   } catch (e) {

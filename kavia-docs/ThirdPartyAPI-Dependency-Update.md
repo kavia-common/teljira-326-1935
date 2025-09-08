@@ -104,28 +104,22 @@ Configuration and code adjustments commonly required (snippets)
   }
 
 - Swagger UI dynamic server URL (if needed):
-  // similar to Monolith approach: recompute servers[] based on req.protocol/host.
+  // recompute servers[] based on req.protocol/host similar to Monolith approach.
 
 Security checks
 - npm audit --production (review high/critical issues)
 - For runtime advisories, consider pinning to patched versions if latest major introduces breaking changes you cannot adopt immediately.
 
-Example commit message
-- chore(third-party-api): bump dependencies to latest compatible, align security middlewares
-- Includes:
-  - express-rate-limit v7 config (limit field)
-  - helmet config review (CSP explicit in prod)
-  - jsonwebtoken v9 adjustments
-  - engines.node >= 18.18.0
+Helper script
+- You can use the update helper script from this repo (copy to the Third-Party API repo root and run):
+  - File: kavia-docs/scripts/update-deps-third-party-api.sh
+  - Quick usage:
+    curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-third-party-api.sh -o update-deps-third-party-api.sh
+    chmod +x update-deps-third-party-api.sh
+    ./update-deps-third-party-api.sh
 
-CHANGELOG entry template
-## [Unreleased]
-### Changed
-- Bumped all runtime and dev dependencies to latest compatible versions.
-- Updated rate limiting config to use `limit` (express-rate-limit v7).
-- Ensured JWT subject is string and standardized error handling for token verification.
-- Reviewed Helmet configuration; CSP explicit in production.
-- Set Node engine to >= 18.18.0.
+Example commit message
+- chore: update dependencies and refresh lock file
 
 Validation
 - npm test, npm run lint
@@ -139,13 +133,9 @@ Rollback plan
 - Revert package.json and lockfile if runtime regressions appear.
 - Update incrementally package-by-package if broad update causes instability.
 
-Notes
-- This guide is provided because the Third-Party API codebase (teljira-326-1862) is not present in this workspace. Once the repository is available locally, follow the steps above to perform the update.
-
-Instructions for environment variables
-- Do not hardcode secrets. Ensure .env contains any required variables (document in .env.example):
-  - PORT, HOST, SITE_URL (if applicable)
-  - JWT_SECRET, JWT_EXPIRES_IN (if JWT is used)
-  - GIT provider settings or tokens (if applicable)
-  - External API endpoints/keys for reporting integrations
-  - NODE_ENV
+Environment variables to document in .env.example
+- PORT, HOST, SITE_URL (if applicable)
+- JWT_SECRET, JWT_EXPIRES_IN (if JWT is used)
+- GIT provider settings or tokens (if applicable)
+- External API endpoints/keys for reporting integrations
+- NODE_ENV
