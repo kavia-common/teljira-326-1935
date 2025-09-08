@@ -3,10 +3,10 @@
 SprintFlow Monolith (TELJIRAMonolith)
 
 Getting started:
-- Copy TELJIRAMonolith/.env.example to TELJIRAMonolith/.env and set variables.
+- Copy TELJIRAMonolith/.env.example to TELJIRAMonolith/.env and set variables (do not commit .env).
+- Ensure PostgreSQL is running and reachable (create database and user from .env).
 - Run: cd TELJIRAMonolith
 - Install deps: npm install
-- Ensure PostgreSQL is running and reachable via .env
 - Run migrations: npm run migrate
 - Seed defaults: npm run seed
 - Start backend: npm run dev
@@ -14,12 +14,19 @@ Getting started:
 - Open frontend at http://localhost:5173
 - API docs at http://localhost:3000/docs
 
-Notes:
+Default permissions to try the app:
 - JWT auth. Use /api/auth/register then /api/auth/login to get token.
-- RBAC permissions are placeholder from seed; adjust in DB and wire to tokens.
-- All actions send audit logs to audit_logs table.
-- Socket.IO pushes simple events for created/updated entities.
-- Accessibility: Semantic landmarks and form labels included; expand per WCAG 2.2 AA.
+- Current login assigns a minimal set of permissions in the JWT (viewer-like): ['project.read', 'issue.read'].
+- To use creation endpoints from the UI or API, you can either:
+  1) Manually craft a token with broader permissions during development, or
+  2) Temporarily update src/routes/modules/auth.js to include additional permissions in signJwt (e.g., project.write, issue.write, sprint.write, board.write, settings.admin), or
+  3) Extend the auth flow to derive permissions from DB (roles/role_permissions) and include them in JWT payload.
+
+Additional notes:
+- RBAC enforcement is middleware-based; adjust JWT permissions to exercise protected endpoints.
+- All sensitive actions are recorded in the audit_logs table.
+- Socket.IO emits project/issue/sprint events for real-time UI updates.
+- Accessibility: Semantic landmarks and labels are included; expand toward WCAG 2.2 AA across complex views.
 
 Debugging (VS Code):
 - This repository now includes .vscode/launch.json and tasks.json to enable browser debugging in supported environments.

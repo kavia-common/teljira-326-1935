@@ -31,7 +31,6 @@ function App() {
     });
     socket.on('project:created', (p) => {
       // Simple notification
-      // eslint-disable-next-line no-alert
       alert(`New project created: ${p.name}`);
     });
     return () => socket.close();
