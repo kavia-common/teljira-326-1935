@@ -10,7 +10,7 @@ Repository Scope
 - Frontend app: TELJIRAMonolith/frontend
 
 Prerequisites
-- Node.js >= 18.18.0 (Current CI uses Node 18.20.x)
+- Node.js >= 20.0.0 (required for latest Vite/React 19/React Router 7 toolchain)
 - npm >= 9 (10.x used at time of writing)
 - Clean working tree (stash/commit your changes first)
 
@@ -50,10 +50,9 @@ Quick Steps (copy/paste)
 
 Engine and Compatibility Notes
 - Node Engine:
-  - Root currently specifies "engines": { "node": ">=18.18.0" }.
-  - Recent frontend updates (Vite 7, @vitejs/plugin-react 5, react-router-dom 7) indicate Node >= 20 requirement in their engines fields.
-  - If your environment runs Node 18, npm will warn (EBADENGINE) but may still install. Prefer Node >= 20 for local dev if using latest frontend toolchain.
-  - If Node 18 must be kept, pin frontend toolchain to Node 18–compatible versions (e.g., Vite 5/6, React 18, React Router 6).
+  - Root and frontend now specify "engines": { "node": ">=20.0.0" } to align with latest Vite/React Router 7 requirements.
+  - If your environment runs Node 18, you may encounter EBADENGINE and build/runtime issues; prefer Node >= 20 for development and CI.
+  - If Node 18 must be kept temporarily, pin frontend toolchain to Node 18–compatible versions (e.g., Vite 5/6, React 18, React Router 6) and re-run install.
 
 - Express 5:
   - Backend updated to express ^5.x via dependency bump. Express 5 changes some middleware/handler semantics (promise support, error handling).
