@@ -1,0 +1,39 @@
+{
+  "name": "sprintfLow-backend",
+  "version": "0.1.0",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "eslint .",
+    "migrate": "knex --knexfile knexfile.js migrate:latest",
+    "seed": "knex --knexfile knexfile.js seed:run",
+    "openapi": "node scripts/generate_openapi.js"
+  },
+  "dependencies": {
+    "argon2": "^0.41.1",
+    "cors": "2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "nanoid": "^5.0.7",
+    "objection": "^3.1.5",
+    "otplib": "^12.0.1",
+    "pg": "^8.12.0",
+    "pino": "^9.3.2",
+    "pino-http": "^9.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.7"
+  }
+}
