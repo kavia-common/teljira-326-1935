@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 
 /**
  * Verify Bearer token and attach user to req.context.
+ * Note: Permissions are not expected on the token. The RBAC layer resolves permissions
+ * from the user's roles against the DB when needed.
  */
 function authenticate(req, res, next) {
   const auth = req.headers.authorization;
@@ -17,6 +19,7 @@ function authenticate(req, res, next) {
       id: payload.sub,
       email: payload.email,
       roles: payload.roles || [],
+      // permissions will be resolved on demand by RBAC middleware/services
     };
     return next();
   } catch (e) {
