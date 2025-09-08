@@ -21,6 +21,15 @@ Notes:
 - Socket.IO pushes simple events for created/updated entities.
 - Accessibility: Semantic landmarks and form labels included; expand per WCAG 2.2 AA.
 
+Debugging (VS Code):
+- This repository now includes .vscode/launch.json and tasks.json to enable browser debugging in supported environments.
+- Use the "Monolith: Full Stack (Backend + Frontend + Browser)" compound to:
+  1) Start the frontend (Vite) dev server,
+  2) Start the backend with Node inspector,
+  3) Launch a Chrome debug session attached to http://localhost:5173.
+- Alternatively, run "Backend: Node (Nodemon + Inspector)" or "Frontend: Vite dev server" individually, and use "Browser: Debug Chrome (Attach to http://localhost:5173)" to attach.
+- If using a strictly web-based IDE that cannot spawn a native browser, the Chrome debug attach will still work if the environment supports a built-in browser preview. Otherwise, open the same workspace in VS Code Desktop.
+
 Dependency update guides (external containers):
 - Webhook Endpoint: see kavia-docs/WebhookEndpoint-Contributing-Dependency-Update.md and kavia-docs/WebhookEndpoint-Dependency-Update.md
 - Notification Service: see kavia-docs/NotificationService-Dependency-Update.md
