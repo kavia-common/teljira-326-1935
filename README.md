@@ -1,1 +1,22 @@
 # teljira-326-1935
+
+SprintFlow Monolith (TELJIRAMonolith)
+
+Getting started:
+- Copy TELJIRAMonolith/.env.example to TELJIRAMonolith/.env and set variables.
+- Run: cd TELJIRAMonolith
+- Install deps: npm install
+- Ensure PostgreSQL is running and reachable via .env
+- Run migrations: npm run migrate
+- Seed defaults: npm run seed
+- Start backend: npm run dev
+- Start frontend: npm run --prefix frontend dev
+- Open frontend at http://localhost:5173
+- API docs at http://localhost:3000/docs
+
+Notes:
+- JWT auth. Use /api/auth/register then /api/auth/login to get token.
+- RBAC permissions are placeholder from seed; adjust in DB and wire to tokens.
+- All actions send audit logs to audit_logs table.
+- Socket.IO pushes simple events for created/updated entities.
+- Accessibility: Semantic landmarks and form labels included; expand per WCAG 2.2 AA.
