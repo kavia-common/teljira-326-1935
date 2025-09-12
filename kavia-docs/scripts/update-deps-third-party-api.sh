@@ -11,7 +11,7 @@ set -euo pipefail
 #   ./update-deps-third-party-api.sh
 #
 # Prerequisites:
-# - Node.js >= 18.18.0
+# - Node.js >= 18.18.0 (prefer >= 20)
 # - npm >= 9
 # - git repo initialized and clean working tree (commit or stash prior changes)
 

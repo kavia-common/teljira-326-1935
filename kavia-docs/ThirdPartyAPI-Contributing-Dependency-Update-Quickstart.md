@@ -25,14 +25,23 @@ Steps (copy/paste)
    chmod +x update-deps-third-party-api.sh
    ./update-deps-third-party-api.sh
 
-4) Push and open a PR
+4) Validate build/run (typical)
+   # Install if not already done by the script
+   npm install
+   # Lint and tests if available (non-blocking)
+   npm run lint || true
+   CI=true npm test || true
+   # Start the app (adjust to the repo's scripts)
+   npm start || npm run dev
+
+5) Push and open a PR
    git push -u origin HEAD
 
 Breaking changes to review
 - express-rate-limit: use `limit` (not `max`); set standardHeaders/legacyHeaders
 - helmet: CSP handling varies; explicitly set CSP in production if needed
 - jsonwebtoken: ensure `subject` is string; handle TokenExpiredError/JsonWebTokenError
-- csurf: verify cookie options and Authorization-based bypass
+- csurf: verify cookie options and Authorization-based bypass (if used)
 - node-fetch v3 is ESM; prefer axios for CJS projects or convert to ESM
 - eslint 9: flat config (eslint.config.js)
 - swagger-jsdoc/ui: verify require vs default import usage

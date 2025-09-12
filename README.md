@@ -40,7 +40,7 @@ Debugging (VS Code):
 Dependency update guides (external containers):
 - Webhook Endpoint: see kavia-docs/WebhookEndpoint-Contributing-Dependency-Update.md, kavia-docs/WebhookEndpoint-Contributing-Dependency-Update-Quickstart.md, kavia-docs/WebhookEndpoint-Dependency-Update.md, and kavia-docs/WebhookEndpoint-Dependency-Update-Notes.md
 - Notification Service: see kavia-docs/NotificationService-Dependency-Update.md
-- Third-Party API: see kavia-docs/ThirdPartyAPI-Dependency-Update.md and kavia-docs/ThirdPartyAPI-Contributing-Dependency-Update-Quickstart.md
+- Third-Party API: see kavia-docs/ThirdPartyAPI-Dependency-Update.md and kavia-docs/ThirdPartyAPI-Contributing-Dependency-Update-Quickstart.md (script at kavia-docs/scripts/update-deps-third-party-api.sh)
 - IdP: see kavia-docs/IdP-Contributing-Dependency-Update.md and kavia-docs/IdP-Dependency-Update.md
 
 Monolith dependency update:
