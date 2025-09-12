@@ -45,3 +45,4 @@ Dependency update guides (external containers):
 
 Monolith dependency update:
 - See kavia-docs/TELJIRAMonolith-Dependency-Update.md for a reproducible procedure and compatibility notes.
+- Also see TELJIRAMonolith/DEPENDENCY_UPDATE_NOTES.md and TELJIRAMonolith/scripts/update-deps-monolith.sh for a local scripted update flow and post-update verification checklist.
