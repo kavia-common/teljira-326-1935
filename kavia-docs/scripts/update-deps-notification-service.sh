@@ -10,6 +10,15 @@ set -euo pipefail
 #   4) curl -sSL https://raw.githubusercontent.com/kavia-common/teljira-326-1935/main/kavia-docs/scripts/update-deps-notification-service.sh -o update-deps-notification-service.sh
 #   5) chmod +x update-deps-notification-service.sh
 #   6) ./update-deps-notification-service.sh
+#
+# What it does:
+# - Creates/switches to branch chore/deps-update-YYYYMMDD
+# - Baseline install (ci or install fallback)
+# - Uses npm-check-updates (ncu) to bump ranges in package.json
+# - Runs npm install to regenerate package-lock.json
+# - Runs npm audit fix (best-effort)
+# - Runs lint and tests if available (best-effort, non-interactive)
+# - Commits package.json and package-lock.json with standardized message
 
 if [ ! -f package.json ]; then
   echo "package.json not found. Run this script from the Notification Service repository root (teljira-326-1861)."

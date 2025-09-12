@@ -72,3 +72,7 @@ Security
 Commit message policy
 - Use exactly:
   chore: update dependencies and refresh lock file
+
+Validation
+- npm start or npm run dev
+- Verify health endpoint and any notification dispatch paths still operate (email/webhook adapters).
